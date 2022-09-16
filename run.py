@@ -1,7 +1,7 @@
 from main import *
 import threading
 
-
+print('ok')
 def run():
     #thread = threading.Thread(target=Sensor_Monitoring)
     #thread.start()

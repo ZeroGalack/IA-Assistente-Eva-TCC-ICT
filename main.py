@@ -139,6 +139,9 @@ def main(HomeSet):
         except requests.exceptions:
             print(f'ERRO3')
 
+        except TypeError:
+            print(f'ERROR4')
+
 
 def run_main():
     for n in range(5):
