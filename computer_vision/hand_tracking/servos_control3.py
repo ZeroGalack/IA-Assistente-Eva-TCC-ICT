@@ -1,20 +1,43 @@
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 import numpy as np
+import serial
 import time
 import threading
-import requests
+
+pTime = 0
+try:
+    serial.Serial('COM6', 9600).close()
+    PortaSerial = serial.Serial('COM6', 9600)
+    print('arduino ok')
+
+except serial.serialutil.SerialException:
+    print('arduino n ok')
 
 
-def post(text):
-    requests.post('https://test7.lucasteixeira23.repl.co/garraTeste', json=text)
+'''def arduino(codigo):
+    try:
+        cod = str(codigo) # O # para separar as mensagens
+        print(cod)
+        PortaSerial.write(cod.encode())# Funçao que envia a mesagem pela porta serial 'utf-8'
+        #PortaSerial.flush()
+
+    except AttributeError:
+        print('arduino não conectado')'''
+
+def arduino(codigo):
+    try:
+        cod = str(codigo)+'#'; # O # para separar as mensagens
+        PortaSerial.write(cod.encode())# Funçao que envia a mesagem pela porta serial
+        print(cod.encode())
+        PortaSerial.flush()
+    except AttributeError:
+        print('arduino não conectado')
 
 ''' 
 print(f"Altura (height): {img.shape[0]} pixels" )
 print(f"Largura (width): {img.shape[1]} pixels")
 '''
-
-pTime = 0
 width = 640
 height = 480
 
@@ -36,12 +59,16 @@ while True:
     img = cv2.flip(img, 1)
 
     hands, img = detector.findHands(img, flipType=False)
+
     position = detector.findPosition(img, draw=False)
 
     if hands:
 
         fingers = detector.fingersUp(hands[0])
         x, y = position[9][1], position[9][2]
+
+        #print('fingersUp ' + str(fingers))
+        #print(x, y)
 
         if fingers == [1, 0, 0, 0, 0]:
             cv2.putText(img, f'Garra fechada', (100, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 3)
@@ -57,8 +84,9 @@ while True:
         py = int(np.interp(y, [qy1, qy2], [180, 0]))
 
         vl = str(px)+'-'+str(py)+':'
-        print(vl)
-        threading.Thread(target=post, args=[vl]).start()
+        threading.Thread(target=arduino, args=[str(vl)]).start()
+        #arduino(vl)
+        #time.sleep(1)
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)

@@ -7,6 +7,7 @@ import requests
 
 
 def post(text):
+    print(text)
     requests.post('https://test7.lucasteixeira23.repl.co/garraTeste', json=text)
 
 ''' 
@@ -14,6 +15,8 @@ print(f"Altura (height): {img.shape[0]} pixels" )
 print(f"Largura (width): {img.shape[1]} pixels")
 '''
 
+bt = 0
+positionsXY = []
 pTime = 0
 width = 640
 height = 480
@@ -28,7 +31,6 @@ qy1 = int(height * 0.15)
 qx2 = int(width * 0.85)
 qy2 = int(height * 0.85)
 
-
 detector = HandDetector(detectionCon=0.5)
 
 while True:
@@ -38,7 +40,11 @@ while True:
     hands, img = detector.findHands(img, flipType=False)
     position = detector.findPosition(img, draw=False)
 
+    if not hands:
+        bt = 0
+
     if hands:
+        bt = bt + 1
 
         fingers = detector.fingersUp(hands[0])
         x, y = position[9][1], position[9][2]
@@ -53,12 +59,18 @@ while True:
 
         cv2.rectangle(img, (qx1, qy1), (qx2, qy2), (0, 255, 0))
 
-        px = int(np.interp(x, [qx1, qx2], [0, 180]))#int(((10*x)/44)-22)
+        px = int(np.interp(x, [qx1, qx2], [0, 180]))  # int(((10*x)/44)-22)
         py = int(np.interp(y, [qy1, qy2], [180, 0]))
 
-        vl = str(px)+'-'+str(py)+':'
-        print(vl)
-        threading.Thread(target=post, args=[vl]).start()
+        print(bt)
+        if bt == 10:
+            positionsXY.append(px)
+            bt = 0
+
+        print(positionsXY)
+        if len(positionsXY) == 2:
+            threading.Thread(target=post, args=[f'{positionsXY[0]}, {positionsXY[1]}']).start()
+            positionsXY.clear()
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)

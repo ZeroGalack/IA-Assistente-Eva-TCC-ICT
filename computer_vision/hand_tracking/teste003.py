@@ -1,6 +1,12 @@
-import requests
+from time import time
 
-print('...')
-while 1:
-    requests.post('https://test7.lucasteixeira23.repl.co/garraTeste', json='teste')
+tpin = 0
+globals()['tpin'] = int(time())
 
+while True:
+    tp = int(time())
+    print(tp - tpin)
+
+    if tp - tpin == 6:
+        print('foifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoifoi')
+        globals()['tpin'] = tp
