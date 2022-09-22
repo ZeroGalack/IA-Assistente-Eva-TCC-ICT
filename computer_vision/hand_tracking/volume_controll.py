@@ -54,10 +54,6 @@ def volume_controller(cam=0, maxhands=1):
             #print(int(vol))
             volume.SetMasterVolumeLevel(int(vol), None)
 
-            porcentagem = np.interp(length, [50, 220],[0, 100])
-
-        cv2.putText(img, f'vol= {int(porcentagem)}%', (450, 50), cv2.FONT_ITALIC, 1, (0, 0, 255), 2)
-
         cTime = time.time()
         fps = 1 / (cTime - pTime)
         pTime = cTime
@@ -76,3 +72,5 @@ def volume_controller(cam=0, maxhands=1):
     cv2.destroyAllWindows()
 
 
+if __name__ == "__main__":
+    volume_controller()

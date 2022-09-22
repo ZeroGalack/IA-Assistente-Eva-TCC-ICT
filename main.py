@@ -3,11 +3,13 @@ print('Iniciando...')
 import requests
 from computer_vision.hand_tracking.volume_controll import volume_controller, varHVC
 from computer_vision.hand_tracking.hand_sinais import hand_sinais, varHS
+from computer_vision.hand_tracking.servos_control import servos_control, varSC
 from computer_vision.face_rec.face_indentification import FaceIndetification
 from functions import *
 import threading
 from GPT_3 import *
 LH = ''
+camera = 0
 
 print("""
 EEEEEEEEEEEE  VVV              VVV     AAA              
@@ -66,18 +68,27 @@ def main(HomeSet):
                         threading.Thread(target=engine_say, args=['Ligando luz']).start()
                         threading.Thread(target=arduino(codigo=[LH])).start()
 
-                    if comparar(['maozinha'], fala):
+                    if comparar(['hand'], fala):
                         if comparar(['volume'], fala):
                             n += 1
-                            threading.Thread(target=engine_say, args=['Ligando mãozinha volume']).start()
+                            print('Ligando Hand Volume')
+                            threading.Thread(target=engine_say, args=['Ligando Hand volume']).start()
                             threading.Thread(target=varHVC, args=['start']).start()
-                            threading.Thread(target=volume_controller).start()
+                            threading.Thread(target=volume_controller, args=[camera]).start()
 
                         if comparar(['sinais'], fala):
                             n += 1
-                            threading.Thread(target=engine_say, args=['Ligando mãozinha Sinais']).start()
+                            print('Ligando Hand Sinais')
+                            threading.Thread(target=engine_say, args=['Ligando Hand Sinais']).start()
                             threading.Thread(target=varHS, args=['start']).start()
-                            threading.Thread(target=hand_sinais).start()
+                            threading.Thread(target=hand_sinais, args=[camera]).start()
+
+                        if comparar(['garra'], fala):
+                            n += 1
+                            print('Ligando Hand Garra')
+                            threading.Thread(target=engine_say, args=['Ligando Hand Garra']).start()
+                            threading.Thread(target=varSC, args=['start']).start()
+                            threading.Thread(target=servos_control, args=[camera]).start()
 
                 if comparar(['desligar', 'desligue', 'desliga', 'apague', 'apagar'], fala):
                     if comparar(['luz', 'lampada', 'lmpada', 'luzes'], fala):
@@ -85,41 +96,55 @@ def main(HomeSet):
                         threading.Thread(target=engine_say, args=['Desligando luz']).start()
                         threading.Thread(target=arduino, args=['-1']).start()
 
-                    if comparar(['maozinha'], fala):
+                    if comparar(['hand'], fala):
                         if comparar(['volume'], fala):
                             n += 1
                             print('Desligando Hand Tracking')
-                            threading.Thread(target=engine_say, args=['Desligando mãozinha volume']).start()
+                            threading.Thread(target=engine_say, args=['Desligando Hand volume']).start()
                             threading.Thread(target=varHVC, args=['stop']).start()
 
                         if comparar(['sinais'], fala):
                             n += 1
                             print('Desligando Hand Tracking')
-                            threading.Thread(target=engine_say, args=['Desligando mãozinha Sinais']).start()
+                            threading.Thread(target=engine_say, args=['Desligando Hand Sinais']).start()
                             threading.Thread(target=varHS, args=['stop']).start()
+
+                        if comparar(['garra'], fala):
+                            n += 1
+                            print('Desligando Hand Garra')
+                            threading.Thread(target=engine_say, args=['Desligando Hand Garra']).start()
+                            threading.Thread(target=varSC, args=['stop']).start()
 
                     if comparar(['musica'], fala):
                         n += 1
+                        print('Desligando musica')
                         mixer.music.stop()
 
                 if comparar(['pesquisa', 'pesquise', 'pesquisar', 'procure', 'procurar'], fala) and comparar(['internet'], fala):
                     n += 1
-                    threading.Thread(target=engine_say, args=['Pesquisando na Internet']).start()
                     threading.Thread(target=pesquise, args=[fala]).start()
 
                 if comparar(['tocar', 'toque'], fala):
-                    n += 1
-                    NameMusica = re.sub(r'eva|toque|tocar|musica', '', fala)
-                    NameMusica = re.sub(' ', '-', NameMusica)
-                    threading.Thread(target=reprodutor_audio, args=[f'audios/{NameMusica}.mp3']).start()
+                    if comparar(['youtube'], fala):
+                        n += 1
+                        pass
+
+                    else:
+                        n += 1
+                        NameMusica = re.sub(r'eva|toque|tocar|musica', '', fala)
+                        NameMusica = re.sub(' ', '-', NameMusica)
+                        print(f'Tocando {NameMusica}')
+                        threading.Thread(target=reprodutor_audio, args=[f'audios/{NameMusica}.mp3']).start()
 
                 if comparar(['musica'], fala):
                     if comparar(['pausar'], fala):
                         n += 1
+                        print('Pausando musica')
                         mixer.music.pause()
 
                     if comparar(['despausar'], fala):
                         n += 1
+                        print('Despausando musica')
                         mixer.music.unpause()
 
                 if comparar(['pare', 'para'], fala) and comparar(['falar'], fala):
@@ -147,7 +172,7 @@ def run_main():
     for n in range(5):
         senha = str(input('Digite sua Senha: '))
         if senha == '22558800':
-            name = FaceIndetification()
+            name = FaceIndetification(camera)
 
             if name == 'Lucas Cordeiro':
                 engine_say('Bem vindo, Lucas Cordeiro')

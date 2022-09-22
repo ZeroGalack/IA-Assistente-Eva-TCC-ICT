@@ -37,7 +37,7 @@ Você:
 """
     print('...')
     while True:
-        print(f'Você: {fala}')
+        print(f'Voce: {fala}')
 
         prompt += fala
         answer, prompt = gpt3(prompt,
@@ -46,7 +46,7 @@ Você:
                               presence_penalty=0.8,
                               top_p=1,
                               start_text='\nEva:',
-                              restart_text='\nVocê: ')
+                              restart_text='\nVoce: ')
         resposta = trans.translate(answer, dest='pt').text
         print('Eva: ' + resposta)
         engine_say(resposta)

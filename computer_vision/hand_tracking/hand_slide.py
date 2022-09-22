@@ -4,15 +4,15 @@ import time
 import pyautogui
 
 
-def hand_slide():
+def hand_slide(cam=0):
     btleft = 0
     btright = 0
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(cam)
     cap.set(3, 640)
     cap.set(4, 480)
 
-    detector = HandDetector(detectionCon=0.5, maxHands=2)
+    detector = HandDetector(detectionCon=0.5, maxHands=1)
 
     pTime = 0
     while True:
@@ -27,9 +27,7 @@ def hand_slide():
         if hands:
 
             fingers = detector.fingersUp(hands[0])
-            #fingers2 = detector.fingersUp(hands[-1])
             print('fingers ' + str(fingers))
-            #print('fingers2 ' + str(fingers2))
 
             if fingers == [1, 1, 0, 0, 0]:
                 cv2.putText(img, f'-1', (100, 250), cv2.FONT_HERSHEY_COMPLEX, 5, (0, 0, 255), 3)
@@ -64,4 +62,5 @@ def hand_slide():
     cv2.destroyAllWindows()
 
 
-hand_slide()
+if __name__ == "__main__":
+    hand_slide()

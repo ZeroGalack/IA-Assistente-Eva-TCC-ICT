@@ -8,9 +8,9 @@ def varHS(stop):
     globals()['stop'] = stop
 
 
-def hand_sinais():
+def hand_sinais(cam=0):
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(cam)
     cap.set(3, 1280)
     cap.set(4, 720)
 
@@ -88,3 +88,7 @@ def hand_sinais():
 
     cap.release()
     cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    hand_sinais()

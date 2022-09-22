@@ -4,10 +4,10 @@ import time
 import pyautogui
 
 
-def hand_dino():
+def hand_dino(cam=0):
     btspace = 0
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(cam)
     cap.set(3, 640)
     cap.set(4, 480)
 
@@ -49,6 +49,7 @@ def hand_dino():
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     hand_dino()
