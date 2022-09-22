@@ -52,11 +52,11 @@ def servos_control(cam=0):
 
             if y2 > 240 and length < 30:
                 cv2.putText(img, f'Para Baixo', (440, 290), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 0), 2)
-                arduino(-1)
+                arduino(-1, False)
 
             if y2 <= 240 and length < 30:
                 cv2.putText(img, f'Para Cima', (440, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 0), 2)
-                arduino(1)
+                arduino(1, False)
 
         cv2.rectangle(img, (qx1, qy1), (qx2, qy2), (0, 255, 0))
         cv2.line(img, (0, 240), (640, 240), (255, 0, 255), 1)

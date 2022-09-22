@@ -27,8 +27,8 @@ def hand_sinais(cam=0):
 
             fingers = detector.fingersUp(hands[0])
             fingers2 = detector.fingersUp(hands[-1])
-            print('fingers ' + str(fingers))
-            print('fingers2 ' + str(fingers2))
+            #print('fingers ' + str(fingers))
+            #print('fingers2 ' + str(fingers2))
 
             if fingers == [1, 0, 0, 0, 0] and fingers2 == [1, 0, 0, 0, 0]:
                 cv2.putText(img, f'0', (100, 250), cv2.FONT_HERSHEY_COMPLEX, 5, (0, 0, 255), 3)

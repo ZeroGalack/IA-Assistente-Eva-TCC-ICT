@@ -54,13 +54,14 @@ def main(HomeSet):
 
     while True:
         try:
-            r = requests.get('https://test7.lucasteixeira23.repl.co/r')
+            '''r = requests.get('https://test7.lucasteixeira23.repl.co/r')
             fala = str(r.json())
-            fala = fala.lower()
+            fala = fala.lower()'''
             n = 0
+            fala = input()
 
             if fala != "" and comparar(['eva'], fala):
-                print(fala)
+                print(f'Fala: {fala}')
 
                 if comparar(['ligar', 'ligue', 'liga', 'acenda', 'acender'], fala):
                     if comparar(['luz', 'lampada', 'lmpada', 'luzes'], fala):
@@ -68,24 +69,21 @@ def main(HomeSet):
                         threading.Thread(target=engine_say, args=['Ligando luz']).start()
                         threading.Thread(target=arduino(codigo=[LH])).start()
 
-                    if comparar(['hand'], fala):
+                    if comparar(['maozinha'], fala):
                         if comparar(['volume'], fala):
                             n += 1
-                            print('Ligando Hand Volume')
                             threading.Thread(target=engine_say, args=['Ligando Hand volume']).start()
                             threading.Thread(target=varHVC, args=['start']).start()
                             threading.Thread(target=volume_controller, args=[camera]).start()
 
                         if comparar(['sinais'], fala):
                             n += 1
-                            print('Ligando Hand Sinais')
                             threading.Thread(target=engine_say, args=['Ligando Hand Sinais']).start()
                             threading.Thread(target=varHS, args=['start']).start()
                             threading.Thread(target=hand_sinais, args=[camera]).start()
 
                         if comparar(['garra'], fala):
                             n += 1
-                            print('Ligando Hand Garra')
                             threading.Thread(target=engine_say, args=['Ligando Hand Garra']).start()
                             threading.Thread(target=varSC, args=['start']).start()
                             threading.Thread(target=servos_control, args=[camera]).start()
@@ -96,28 +94,24 @@ def main(HomeSet):
                         threading.Thread(target=engine_say, args=['Desligando luz']).start()
                         threading.Thread(target=arduino, args=['-1']).start()
 
-                    if comparar(['hand'], fala):
+                    if comparar(['maozinha'], fala):
                         if comparar(['volume'], fala):
                             n += 1
-                            print('Desligando Hand Tracking')
                             threading.Thread(target=engine_say, args=['Desligando Hand volume']).start()
                             threading.Thread(target=varHVC, args=['stop']).start()
 
                         if comparar(['sinais'], fala):
                             n += 1
-                            print('Desligando Hand Tracking')
                             threading.Thread(target=engine_say, args=['Desligando Hand Sinais']).start()
                             threading.Thread(target=varHS, args=['stop']).start()
 
                         if comparar(['garra'], fala):
                             n += 1
-                            print('Desligando Hand Garra')
                             threading.Thread(target=engine_say, args=['Desligando Hand Garra']).start()
                             threading.Thread(target=varSC, args=['stop']).start()
 
                     if comparar(['musica'], fala):
                         n += 1
-                        print('Desligando musica')
                         mixer.music.stop()
 
                 if comparar(['pesquisa', 'pesquise', 'pesquisar', 'procure', 'procurar'], fala) and comparar(['internet'], fala):
@@ -133,18 +127,15 @@ def main(HomeSet):
                         n += 1
                         NameMusica = re.sub(r'eva|toque|tocar|musica', '', fala)
                         NameMusica = re.sub(' ', '-', NameMusica)
-                        print(f'Tocando {NameMusica}')
                         threading.Thread(target=reprodutor_audio, args=[f'audios/{NameMusica}.mp3']).start()
 
                 if comparar(['musica'], fala):
                     if comparar(['pausar'], fala):
                         n += 1
-                        print('Pausando musica')
                         mixer.music.pause()
 
                     if comparar(['despausar'], fala):
                         n += 1
-                        print('Despausando musica')
                         mixer.music.unpause()
 
                 if comparar(['pare', 'para'], fala) and comparar(['falar'], fala):
@@ -159,7 +150,7 @@ def main(HomeSet):
             print(f'ERRO1')
 
         except requests.exceptions.ConnectionError:
-            print(f'ERRO2')
+            print(f'Sem conexao de internet')
 
         except requests.exceptions:
             print(f'ERRO3')
@@ -201,7 +192,7 @@ def run_main():
 
             if name == 'Unknown':
                 engine_say('Bem vindo, desconhecido')
-                threading.Thread(target=reprodutor_audio, args=['audios/--musica-de-elevador.mp3']).start()
+                threading.Thread(target=reprodutor_audio, args=['audios/--padrao.mp3']).start()
                 main("desconhecido")
         else:
             print('senha incorreta')

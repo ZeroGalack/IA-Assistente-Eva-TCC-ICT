@@ -6,6 +6,8 @@ from pygame import mixer
 import os
 import threading
 
+mixer.init()
+
 COM = str(input('Digite a Porta COM: '))
 try:
     PortaSerial = serial.Serial.close
@@ -49,11 +51,15 @@ def engine_say(text):
     try:
         tts = gTTS(text=text, lang="pt-br")
         tts.save("audios/engine_say.mp3")
-        mixer.init()
-        mixer.music.load("audios/engine_say.mp3")
-        mixer.music.play()
+
+        if mixer.music.get_busy():
+            print(text)
+
+        else:
+            mixer.music.load("audios/engine_say.mp3")
+            mixer.music.play()
     except:
-        mixer.init()
+
         mixer.music.load("audios/sem_internet.mp3")
         mixer.music.play()
     while mixer.music.get_busy():  # check if the file is playing
@@ -63,6 +69,6 @@ def engine_say(text):
 
 
 def reprodutor_audio(audio_a_tocar):
-        mixer.init()
+
         mixer.music.load(audio_a_tocar)
         mixer.music.play()
