@@ -1,4 +1,4 @@
-                   ]#include <WiFi.h>
+#include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
