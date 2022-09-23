@@ -54,11 +54,11 @@ def main(HomeSet):
 
     while True:
         try:
-            '''r = requests.get('https://test7.lucasteixeira23.repl.co/r')
+            r = requests.get('https://test7.lucasteixeira23.repl.co/r')
             fala = str(r.json())
-            fala = fala.lower()'''
+            fala = fala.lower()
             n = 0
-            fala = input()
+            #fala = input()
 
             if fala != "" and comparar(['eva'], fala):
                 print(f'Fala: {fala}')
