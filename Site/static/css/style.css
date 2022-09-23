@@ -1,0 +1,40 @@
+/*
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #0c0c0c;
+  background-color: #1c2333;
+  overflow-x: hidden;
+}
+
+.navbar {
+opacity: 98%; 
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    background-color: #222;
+    height: 50px;
+    flex: 1;
+    align-items: center;
+    overflow-block: auto;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.344);
+    justify-content: center;
+}
+*/
+
+.container22 {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.container55 {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+}
+
+
+
