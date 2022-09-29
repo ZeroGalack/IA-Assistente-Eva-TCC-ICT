@@ -24,6 +24,8 @@ def FaceIndetification(cam=0):
 
             if name == 'Unknown':
                 print("desconhecido!")
+                cap.release()
+                cv2.destroyAllWindows()
                 return name
 
             if name != 'Unknown':

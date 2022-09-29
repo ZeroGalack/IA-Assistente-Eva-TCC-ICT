@@ -69,6 +69,5 @@ def engine_say(text):
 
 
 def reprodutor_audio(audio_a_tocar):
-
         mixer.music.load(audio_a_tocar)
         mixer.music.play()
