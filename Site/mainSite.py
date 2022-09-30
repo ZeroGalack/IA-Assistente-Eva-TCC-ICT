@@ -61,7 +61,6 @@ def r():
 def garraTeste():
     if len(lista) == 10:
         lista2.clear()
-
         lista2.append(None and None)
 
     req = request.get_json()

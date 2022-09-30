@@ -5,6 +5,7 @@ from gtts import gTTS
 from pygame import mixer
 import os
 import threading
+import pywhatkit
 
 mixer.init()
 
@@ -71,3 +72,10 @@ def engine_say(text):
 def reprodutor_audio(audio_a_tocar):
         mixer.music.load(audio_a_tocar)
         mixer.music.play()
+
+
+def tocarYt(text):
+    musica = re.sub(r'toque|tocar|eva', '', text)
+    print('tocando' + musica)
+    engine_say('tocando' + musica)
+    pywhatkit.playonyt(musica)

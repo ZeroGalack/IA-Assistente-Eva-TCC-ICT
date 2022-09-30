@@ -3,7 +3,6 @@ print('Iniciando...')
 import requests
 from computer_vision.hand_tracking.volume_controll import volume_controller, varHVC
 from computer_vision.hand_tracking.hand_sinais import hand_sinais, varHS
-from computer_vision.hand_tracking.servos_control import servos_control, varSC
 from computer_vision.face_rec.face_indentification import FaceIndetification
 from functions import *
 import threading
@@ -11,6 +10,7 @@ from GPT_3 import *
 
 SH = ''
 camera = 0
+urlCarroGarra = 'https://test7.lucasteixeira23.repl.co/garraTeste'
 
 print("""
 EEEEEEEEEEEE  VVV              VVV     AAA              
@@ -27,17 +27,9 @@ EEEEEEEEEEEE          VVVV     AAA             AAA
 
 def main(HomeSet):
 
-    if HomeSet == "LucasCordeiro":
-        globals()['SH'] = '77'
-        print('Bem vindo Lucas Cordeiro')
-
-    if HomeSet == "LucasFernandes":
-        globals()['SH'] = '44'
-        print('Bem vindo Lucas Fernades')
-
-    if HomeSet == "Thais":
-        globals()['SH'] = '55'
-        print('Bem vinda Thais')
+    if HomeSet == "desconhecido":
+        globals()['SH'] = '11'
+        print('Bem vindo desconhecido')
 
     if HomeSet == "William":
         globals()['SH'] = '22'
@@ -47,9 +39,17 @@ def main(HomeSet):
         globals()['SH'] = '33'
         print('Bem vindo Miguel')
 
-    if HomeSet == "desconhecido":
-        globals()['SH'] = '11'
-        print('Bem vindo desconhecido')
+    if HomeSet == "LucasFernandes":
+        globals()['SH'] = '44'
+        print('Bem vindo Lucas Fernades')
+
+    if HomeSet == "Thais":
+        globals()['SH'] = '55'
+        print('Bem vinda Thais')
+
+    if HomeSet == "LucasCordeiro":
+        globals()['SH'] = '77'
+        print('Bem vindo Lucas Cordeiro')
 
     arduino(SH)
 
@@ -59,8 +59,37 @@ def main(HomeSet):
             fala = str(r.json())
             fala = fala.lower()
             n = 0
-            #fala = input()
-            print(f'Fala: {fala}')
+            if fala != "":
+
+                if comparar(['carro'], fala):
+                    print(f'Fala: {fala}')
+                    if comparar(['frente'], fala):
+                        n += 1
+                        print('Carro andando pra frente')
+                        requests.post(urlCarroGarra, json='1')
+
+                    if comparar(['tras'], fala):
+                        n += 1
+                        print('Carro andando pra tras')
+                        requests.post(urlCarroGarra, json='-1')
+
+                    if comparar(['desligar'], fala):
+                        n += 1
+                        print('Desligando carro')
+                        requests.post(urlCarroGarra, json='0')
+
+                if comparar(['garra'], fala):
+                    print(f'Fala: {fala}')
+                    if comparar(['subir'], fala):
+                        n += 1
+                        print('Subindo garra')
+                        requests.post(urlCarroGarra, json='2')
+
+                    if comparar(['descer'], fala):
+                        n += 1
+                        print('Desendo Garra')
+                        requests.post(urlCarroGarra, json='-2')
+
             if fala != "" and comparar(['eva'], fala):
                 print(f'Fala: {fala}')
 
@@ -99,11 +128,6 @@ def main(HomeSet):
                             threading.Thread(target=varHS, args=['start']).start()
                             threading.Thread(target=hand_sinais, args=[camera]).start()
 
-                        if comparar(['garra'], fala):
-                            n += 1
-                            threading.Thread(target=engine_say, args=['Ligando Hand Garra']).start()
-                            threading.Thread(target=varSC, args=['start']).start()
-                            threading.Thread(target=servos_control, args=[camera]).start()
 
                 if comparar(['desligar', 'desligue', 'desliga', 'apague', 'apagar'], fala):
                     if comparar(['luz', 'lampada', 'luzes'], fala):
@@ -138,11 +162,6 @@ def main(HomeSet):
                             threading.Thread(target=engine_say, args=['Desligando Hand Sinais']).start()
                             threading.Thread(target=varHS, args=['stop']).start()
 
-                        if comparar(['garra'], fala):
-                            n += 1
-                            threading.Thread(target=engine_say, args=['Desligando Hand Garra']).start()
-                            threading.Thread(target=varSC, args=['stop']).start()
-
                     if comparar(['musica'], fala):
                         n += 1
                         mixer.music.stop()
@@ -154,7 +173,7 @@ def main(HomeSet):
                 if comparar(['tocar', 'toque'], fala):
                     if comparar(['youtube'], fala):
                         n += 1
-                        pass
+                        tocarYt(fala)
 
                     else:
                         n += 1
@@ -190,10 +209,6 @@ def main(HomeSet):
 
         except TypeError:
             print(f'ERROR4')
-
-        except requests:
-            print(f'ERROR5')
-
 
 
 def run_main():
