@@ -9,7 +9,8 @@ import threading
 from GPT_3 import *
 
 SH = ''
-camera = 0
+camera = int(input('Escolha a camera: '))
+
 urlCarroGarra = 'https://test7.lucasteixeira23.repl.co/garraTeste'
 
 print("""
@@ -94,7 +95,7 @@ def main(HomeSet):
                 print(f'Fala: {fala}')
 
                 if comparar(['ligar', 'ligue', 'liga', 'acenda', 'acender'], fala):
-                    if comparar(['luz', 'lampada', 'luzes'], fala):
+                    if comparar(['luz', 'lampada', 'luzes', 'lampadas'], fala):
                         if comparar(['sala'], fala) and not comparar(['estar'], fala):
                             n += 1
                             threading.Thread(target=engine_say, args=['Ligando luz']).start()
@@ -115,6 +116,11 @@ def main(HomeSet):
                             threading.Thread(target=engine_say, args=['Ligando luz']).start()
                             threading.Thread(target=arduino(codigo=[4])).start()
 
+                        if comparar(['tudo', 'todas'], fala):
+                            n += 1
+                            threading.Thread(target=engine_say, args=['Ligando luz']).start()
+                            threading.Thread(target=arduino(codigo=[5])).start()
+
                     if comparar(['maozinha'], fala):
                         if comparar(['volume'], fala):
                             n += 1
@@ -128,9 +134,8 @@ def main(HomeSet):
                             threading.Thread(target=varHS, args=['start']).start()
                             threading.Thread(target=hand_sinais, args=[camera]).start()
 
-
                 if comparar(['desligar', 'desligue', 'desliga', 'apague', 'apagar'], fala):
-                    if comparar(['luz', 'lampada', 'luzes'], fala):
+                    if comparar(['luz', 'lampada', 'luzes', 'lampadas'], fala):
                         if comparar(['sala'], fala) and not comparar(['estar'], fala):
                             n += 1
                             threading.Thread(target=engine_say, args=['Desligando luz']).start()
@@ -150,6 +155,11 @@ def main(HomeSet):
                             n += 1
                             threading.Thread(target=engine_say, args=['Desligando luz']).start()
                             threading.Thread(target=arduino(codigo=[-4])).start()
+
+                        if comparar(['tudo', 'todas'], fala):
+                            n += 1
+                            threading.Thread(target=engine_say, args=['Desligando luz']).start()
+                            threading.Thread(target=arduino(codigo=[-5])).start()
 
                     if comparar(['maozinha'], fala):
                         if comparar(['volume'], fala):
@@ -209,6 +219,9 @@ def main(HomeSet):
 
         except TypeError:
             print(f'ERROR4')
+
+        except FileNotFoundError:
+            print(f'ERROR5')
 
 
 def run_main():

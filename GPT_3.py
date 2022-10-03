@@ -3,10 +3,10 @@ from googletrans import Translator  # googletrans==4.0.0-rc1
 from functions import engine_say
 
 trans = Translator()
-openai.api_key = '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'
+openai.api_key = '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'
 
 
-def gpt3(prompt, engine='text-davinci-002', response_length=2000,
+def gpt3(prompt, engine='text-davinci-002', response_length=300,
          temperature=0.9, top_p=1, frequency_penalty=0, presence_penalty=0.6,
          start_text='', restart_text='', ):  # stop_seq=[]
     response = openai.Completion.create(
@@ -27,13 +27,7 @@ def gpt3(prompt, engine='text-davinci-002', response_length=2000,
 # Quanto maior o prompt maior vai ser o gasto de tokens
 def GPT3(fala):
     prompt = """
-Você: Qual é o seu nome?
-Eva: O meu nome é Eva.
-Você: Por quem você foi desenvolvida?
-Eva: Por Cordeiro, Fernandes, Thaís, William e Miguel.
-Você: Onde você foi desenvolvida?
-Eva: Fui desenvolvido no Instituto de Cultura Técnica - ICT.
-Você: 
+
 """
     print('...')
     while True:
@@ -52,4 +46,7 @@ Você:
         engine_say(resposta)
         return resposta
 
-#GPT3(input('...'))
+
+if __name__ == "__main__":
+    while True:
+        GPT3(input('...'))
