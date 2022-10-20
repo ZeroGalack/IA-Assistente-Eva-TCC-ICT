@@ -4,8 +4,8 @@
 #include <HTTPClient.h>
 #include <Servo.h>
 
-#define SSID "embeddo_ext"
-#define PASSWD "72230F4F4A"
+#define SSID "*****"
+#define PASSWD "*****"
 
 #define N1 14
 #define N2 27
