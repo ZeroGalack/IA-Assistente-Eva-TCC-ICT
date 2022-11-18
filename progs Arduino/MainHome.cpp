@@ -1,7 +1,7 @@
 #define P1 13
 #define P2 12
 #define P3 11
-#define Sensor A0
+
 
 #define R 3
 #define G 5
@@ -15,7 +15,6 @@ void setup() {
   pinMode(P1, OUTPUT);
   pinMode(P2, OUTPUT);
   pinMode(P3, OUTPUT);
-  pinMode(Sensor, INPUT);
 
   pinMode(R, OUTPUT);
   pinMode(G, OUTPUT);
